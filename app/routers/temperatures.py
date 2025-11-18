@@ -62,7 +62,6 @@ async def update_temperatures(db: Session = Depends(get_db)):
         lon = result["lon"]
 
         city.additional_info = json.dumps({"lat": lat, "lon": lon})
-        db.commit()
 
         db_temp = crud.create_temperature(
             db, city_id=city.id, temperature_value=temp, date_time=datetime.utcnow()
@@ -81,6 +80,6 @@ async def update_temperatures(db: Session = Depends(get_db)):
     return {"results": responses}
 
 
-@router.get("/", response_model=List[schemas.TemperatureBase])
+@router.get("/", response_model=List[schemas.TemperatureRead])
 def list_temperatures(city_id: Optional[int] = None, db: Session = Depends(get_db)):
     return crud.list_temperatures(db=db, city_id=city_id)

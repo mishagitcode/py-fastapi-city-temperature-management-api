@@ -90,7 +90,7 @@ def create_temperature(
 def list_temperatures(
     db: Session,
     city_id: Optional[int] = None
-) -> None:
+) -> List[models.Temperature]:
     q = db.query(models.Temperature)
     if city_id is not None:
         q = q.filter(models.Temperature.city_id == city_id)
