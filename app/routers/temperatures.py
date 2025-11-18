@@ -1,3 +1,5 @@
+import os
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List, Optional
@@ -6,12 +8,14 @@ from app import crud, schemas, models
 import httpx
 import asyncio
 import json
+from dotenv import load_dotenv
 from datetime import datetime
 
 router = APIRouter()
 
-WEATHER_API_URL = "https://api.weatherapi.com/v1/current.json"
-API_KEY = "2754d0363d3a4dc0be7103317253009"
+load_dotenv()
+API_KEY = os.getenv("API_KEY")
+WEATHER_API_URL = os.getenv("WEATHER_API_URL")
 
 
 async def fetch_temperature_from_weatherapi(city_name: str) -> Optional[dict]:

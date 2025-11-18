@@ -8,7 +8,7 @@ from app.models import City
 router = APIRouter()
 
 
-@router.post("/", response_model=schemas.CityBase, status_code=status.HTTP_201_CREATED)
+@router.post("/", response_model=schemas.CityRead, status_code=status.HTTP_201_CREATED)
 def create_city(
     city: schemas.CityCreate,
     db: Session = Depends(get_db)
@@ -19,12 +19,12 @@ def create_city(
     return crud.create_city(db, city)
 
 
-@router.get("/", response_model=List[schemas.CityBase])
+@router.get("/", response_model=List[schemas.CityRead])
 def list_cities(db: Session = Depends(get_db)):
     return crud.list_cities(db)
 
 
-@router.get("/{city_id}", response_model=schemas.CityBase)
+@router.get("/{city_id}", response_model=schemas.CityRead)
 def get_city(city_id: int, db: Session = Depends(get_db)):
     db_city = crud.get_city(db, city_id)
     if not db_city:
@@ -32,7 +32,7 @@ def get_city(city_id: int, db: Session = Depends(get_db)):
     return db_city
 
 
-@router.put("/{city_id}", response_model=schemas.CityBase)
+@router.put("/{city_id}", response_model=schemas.CityRead)
 def update_city(city_id: int, city_update: schemas.CityUpdate, db: Session = Depends(get_db)):
     updated = crud.update_city(db, city_id, city_update)
     if not updated:
